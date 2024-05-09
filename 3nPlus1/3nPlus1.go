@@ -1,7 +1,9 @@
 package main
 
-// program inspiration: https://youtu.be/094y1Z2wpJg?si=J5aw_yDn-MmA9nJY
-
+/* program inspiration:
+ * https://youtu.be/094y1Z2wpJg?si=J5aw_yDn-MmA9nJY
+ * https://en.wikipedia.org/wiki/Collatz_conjecture
+ */
 import (
 	"fmt"
 	"log"
