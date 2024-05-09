@@ -4,8 +4,15 @@ package main
  * https://www.youtube.com/watch?v=rI_y2GAlQFM&list=PLB3OFCROxZ41eaR2Q4Ls27WjnzVoDLT6D
  */
 
-import "fmt"
+import (
+	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/widget"
+)
 
 func main() {
-	fmt.Println("Hello, World!")
+	a := app.New()
+	w := a.NewWindow("Hello, World!")
+
+	w.SetContent(widget.NewLabel("Hello, World!"))
+	w.ShowAndRun()
 }
