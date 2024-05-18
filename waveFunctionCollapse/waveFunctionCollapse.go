@@ -18,13 +18,6 @@ type Cell struct {
 	possible  []CellType
 }
 
-var allTypes = []CellType{BLANK,
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN,
-}
-
 type WFCData [][]Cell
 
 const (
@@ -36,36 +29,114 @@ const (
 	DOWN
 )
 
-var possibilies = map[CellType][]CellType{
-	NOTHING: allTypes,
-	BLANK:   allTypes,
-	LEFT: {
-		BLANK,
-		RIGHT,
-		UP,
-		DOWN,
-	},
-	RIGHT: {
-		BLANK,
-		LEFT,
-		UP,
-		DOWN,
-	},
+var allTypes = []CellType{BLANK,
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+}
+
+type Direction int
+
+const (
+	DUP Direction = iota
+	DDWON
+	DLEFT
+	DRIGHT
+)
+
+var allTypesAllDirs = map[Direction][]CellType{
+	DUP:    allTypes,
+	DDWON:  allTypes,
+	DLEFT:  allTypes,
+	DRIGHT: allTypes,
+}
+
+// var blankAllDirs = map[Direction][]CellType{
+// 	DUP:    {BLANK},
+// 	DDWON:  {BLANK},
+// 	DLEFT:  {BLANK},
+// 	DRIGHT: {BLANK},
+// }
+
+var possibilies = map[CellType]map[Direction][]CellType{
+	NOTHING: allTypesAllDirs,
+	BLANK:   allTypesAllDirs,
 	UP: {
-		BLANK,
-		LEFT,
-		RIGHT,
-		DOWN,
+		DUP: {
+			LEFT,
+			RIGHT,
+			DOWN,
+		},
+		DDWON: allTypes,
+		DLEFT: {
+			DOWN,
+			RIGHT,
+			UP,
+		},
+		DRIGHT: {
+			LEFT,
+			DOWN,
+			UP,
+		},
 	},
 	DOWN: {
-		BLANK,
-		LEFT,
-		RIGHT,
-		UP,
+		DUP: allTypes,
+		DDWON: {
+			LEFT,
+			RIGHT,
+			UP,
+		},
+		DLEFT: {
+			DOWN,
+			RIGHT,
+			UP,
+		},
+		DRIGHT: {
+			LEFT,
+			DOWN,
+			UP,
+		},
+	},
+	LEFT: {
+		DUP: {
+			LEFT,
+			RIGHT,
+			DOWN,
+		},
+		DDWON: {
+			LEFT,
+			RIGHT,
+			UP,
+		},
+		DLEFT: {
+			DOWN,
+			RIGHT,
+			UP,
+		},
+		DRIGHT: allTypes,
+	},
+	RIGHT: {
+		DUP: {
+			DOWN,
+			LEFT,
+			RIGHT,
+		},
+		DDWON: {
+			LEFT,
+			RIGHT,
+			UP,
+		},
+		DLEFT: allTypes,
+		DRIGHT: {
+			LEFT,
+			DOWN,
+			UP,
+		},
 	},
 }
 
-//go:embed all:tiles/demo
+//go:embed all:tiles/demo-tracks
 var tiles embed.FS
 
 func loadTexture(s string) rl.Texture2D {
@@ -105,28 +176,28 @@ func setCellType(WFCData WFCData, row, col int, cellType CellType) WFCData {
 	if row < rows {
 		if !WFCData[row+1][col].collapsed {
 
-			WFCData[row+1][col] = Cell{collapsed: false, possible: possibilies[cellType]}
+			WFCData[row+1][col] = Cell{collapsed: false, possible: possibilies[cellType][DDWON]}
 		}
 	}
 	// UP
 	if row >= rows {
 		if !WFCData[row-1][col].collapsed {
 
-			WFCData[row-1][col] = Cell{collapsed: false, possible: possibilies[cellType]}
+			WFCData[row-1][col] = Cell{collapsed: false, possible: possibilies[cellType][DUP]}
 		}
 	}
 	// RIGHT
 	if col < cols {
 		if !WFCData[row][col+1].collapsed {
 
-			WFCData[row][col+1] = Cell{collapsed: false, possible: possibilies[cellType]}
+			WFCData[row][col+1] = Cell{collapsed: false, possible: possibilies[cellType][DRIGHT]}
 		}
 	}
 	// LEFT
 	if col >= cols {
 		if !WFCData[row][col-1].collapsed {
 
-			WFCData[row][col-1] = Cell{collapsed: false, possible: possibilies[cellType]}
+			WFCData[row][col-1] = Cell{collapsed: false, possible: possibilies[cellType][DLEFT]}
 		}
 	}
 	return WFCData
@@ -146,7 +217,16 @@ func newRandomImg(rows, cols int32) WFCData {
 		for c := 0; c < int(cols); c++ {
 			cell := &WFCData[r][c]
 			if !cell.collapsed {
-				WFCData = setCellType(WFCData, r, c, cell.possible[rand.IntN(len(cell.possible))])
+				l := len(cell.possible) - 1
+				pos := 0
+
+				if l <= 0 {
+					l = 1
+				} else {
+					pos = rand.IntN(l)
+				}
+
+				WFCData = setCellType(WFCData, r, c, cell.possible[pos])
 			}
 		}
 	}
@@ -154,15 +234,16 @@ func newRandomImg(rows, cols int32) WFCData {
 	return WFCData
 }
 
-const scale float32 = 0.25
+const scale float32 = 0.145
 
 func main() {
 
-	rows := (100)
-	cols := (100)
+	rows := (10)
+	cols := (10)
 
-	width := (50)
-	height := (50)
+	//resolution of photos
+	width := (600)
+	height := (600)
 
 	var WFCData WFCData
 
@@ -173,11 +254,11 @@ func main() {
 	closeWindow := false
 
 	tiles := map[CellType]rl.Texture2D{
-		BLANK: loadTexture("tiles/demo/blank.png"),
-		LEFT:  loadTexture("tiles/demo/left.png"),
-		RIGHT: loadTexture("tiles/demo/right.png"),
-		UP:    loadTexture("tiles/demo/up.png"),
-		DOWN:  loadTexture("tiles/demo/left.png"),
+		BLANK: loadTexture("tiles/demo-tracks/blank.png"),
+		LEFT:  loadTexture("tiles/demo-tracks/left.png"),
+		RIGHT: loadTexture("tiles/demo-tracks/right.png"),
+		UP:    loadTexture("tiles/demo-tracks/up.png"),
+		DOWN:  loadTexture("tiles/demo-tracks/left.png"),
 	}
 
 	actions := map[uint]interface{}{
