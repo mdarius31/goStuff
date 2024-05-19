@@ -206,13 +206,6 @@ func setCellType(WFCData WFCData, row, col int, cellType CellType) WFCData {
 func newRandomImg(rows, cols int32) WFCData {
 	var WFCData WFCData = resetWFCData(rows, cols)
 
-	// random pos
-	rr := rand.IntN(int(rows))
-	rc := rand.IntN(int(cols))
-
-	// making sure we dont draw a NOTHING
-	WFCData = setCellType(WFCData, rr, rc, CellType(rand.IntN(4)+1))
-
 	for r := 0; r < int(rows); r++ {
 		for c := 0; c < int(cols); c++ {
 			cell := &WFCData[r][c]
