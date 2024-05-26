@@ -136,7 +136,7 @@ var possibilies = map[CellType]map[Direction][]CellType{
 	},
 }
 
-//go:embed all:tiles/demo-tracks
+//go:embed all:tiles
 var tiles embed.FS
 
 func loadTexture(s string) rl.Texture2D {
@@ -247,11 +247,11 @@ func main() {
 	closeWindow := false
 
 	tiles := map[CellType]rl.Texture2D{
-		BLANK: loadTexture("tiles/demo-tracks/blank.png"),
-		LEFT:  loadTexture("tiles/demo-tracks/left.png"),
-		RIGHT: loadTexture("tiles/demo-tracks/right.png"),
-		UP:    loadTexture("tiles/demo-tracks/up.png"),
-		DOWN:  loadTexture("tiles/demo-tracks/left.png"),
+		BLANK: loadTexture("tiles/blank.png"),
+		LEFT:  loadTexture("tiles/left.png"),
+		RIGHT: loadTexture("tiles/right.png"),
+		UP:    loadTexture("tiles/up.png"),
+		DOWN:  loadTexture("tiles/left.png"),
 	}
 
 	actions := map[uint]interface{}{

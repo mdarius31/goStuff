@@ -58,12 +58,12 @@ func resetTableData(tableData [][]CellType, rows int, cols int) [][]CellType {
 
 func main() {
 
-	// nothing := loadImage("./tiles/demo/blank.png")
-	// blank := loadImage("./tiles/demo/blank.png")
-	// left := loadImage("./tiles/demo/left.png")
-	// right := loadImage("./tiles/demo/right.png")
-	// up := loadImage("./tiles/demo/up.png")
-	// down := loadImage("./tiles/demo/down.png")
+	// nothing := loadImage("./tiles/blank.png")
+	// blank := loadImage("./tiles/blank.png")
+	// left := loadImage("./tiles/left.png")
+	// right := loadImage("./tiles/right.png")
+	// up := loadImage("./tiles/up.png")
+	// down := loadImage("./tiles/down.png")
 
 	rows := 10
 	cols := 10
@@ -81,7 +81,7 @@ func main() {
 
 	w.SetPadded(false)
 	w.Resize(fyne.NewSize(float32(50*rows), float32(50*cols)))
-	w.SetFixedSize(true)
+	// w.SetFixedSize(true)
 	w.CenterOnScreen()
 
 	list := widget.NewTable(
@@ -90,7 +90,7 @@ func main() {
 		},
 
 		func() fyne.CanvasObject {
-			return loadImage("tiles/demo/blank.png")
+			return loadImage("tiles/blank.png")
 		},
 
 		func(id widget.TableCellID, o fyne.CanvasObject) {
