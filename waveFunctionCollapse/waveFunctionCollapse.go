@@ -254,7 +254,7 @@ func main() {
 		DOWN:  loadTexture("tiles/left.png"),
 	}
 
-	actions := map[uint]interface{}{
+	actions := map[uint]func(){
 		rl.KeyQ: func() {
 			closeWindow = true
 		},
@@ -262,7 +262,7 @@ func main() {
 			WFCData = newRandomImg(int32(rows), int32(cols))
 		},
 	}
-	actions[rl.KeyR].(func())()
+	actions[rl.KeyR]()
 
 	rl.SetTargetFPS(60)
 
@@ -272,7 +272,7 @@ func main() {
 		rl.ClearBackground(rl.RayWhite)
 
 		if action := actions[uint(rl.GetKeyPressed())]; action != nil {
-			action.(func())()
+			action()
 		}
 
 		for r := (0); r < (len(WFCData)); r++ {
