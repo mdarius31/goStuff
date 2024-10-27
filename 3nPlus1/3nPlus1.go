@@ -1,13 +1,10 @@
 package main
 
-/* program inspiration:
- * https://youtu.be/094y1Z2wpJg?si=J5aw_yDn-MmA9nJY
- * https://en.wikipedia.org/wiki/Collatz_conjecture
- */
 import (
 	"fmt"
 	"log"
 	"strconv"
+	t "threeNPlusOne"
 )
 
 func main() {
@@ -27,17 +24,12 @@ func main() {
 
 	num := pInput
 
-	for num != 1 {
+	threeNPlusOne := t.GenThreeNPlusOne(num)
 
-		fmt.Println(num)
+	for _, n := range threeNPlusOne {
 
-		even := num%2 == 0
-		if even {
-			num = num / 2
-		} else {
-			num = (num * 3) + 1
-		}
+		fmt.Println(n)
+
 	}
-	fmt.Println(1)
 
 }
