@@ -2,47 +2,82 @@ package main
 
 import (
 	"fmt"
+	"math"
 
+	t "threeNPlusOne"
+
+	rg "github.com/gen2brain/raylib-go/raygui"
 	rl "github.com/gen2brain/raylib-go/raylib"
 )
 
-func gen3nPlus1(num int64) []int64 {
-	var out []int64
-
-	for num != 1 {
-
-		out = append(out, num)
-		even := num%2 == 0
-		if even {
-			num = num / 2
-		} else {
-			num = (num * 3) + 1
-		}
-	}
-
-	out = append(out, 1)
-
-	return out
-}
-
 func main() {
 
-	fmt.Println(gen3nPlus1(10))
+	title := "3nPlus1"
+	closeWindow := false
 
-	rl.SetConfigFlags(rl.FlagWindowUndecorated)
+	fmt.Println(t.GenThreeNPlusOne(1))
+	fmt.Println(t.GenThreeNPlusOne(10))
+
+	rl.SetConfigFlags(rl.FlagWindowResizable | rl.FlagVsyncHint)
 	rl.SetTraceLogLevel(rl.LogError)
 
-	rl.InitWindow(800, 450, "raylib [core] example - basic window")
+	rl.InitWindow(800, 450, title)
+
+	rl.SetExitKey(rl.KeyNull)
+
+	text := ""
+
+	var val int32 = 0
+
+	inputFocus := false
+
+	focusable := []*bool{&inputFocus}
+
+	recH := float32(30)
+	rec := rl.NewRectangle(0, 200, float32(rl.GetScreenWidth()), recH)
+
+	updateRec := func() {
+
+		rec.Width = float32(rl.GetScreenWidth())
+		rec.Y = float32(rl.GetScreenHeight()) - recH
+	}
+	updateRec()
+
+	actions := map[uint]func(){
+		rl.KeyQ: func() {
+			closeWindow = true
+		},
+		rl.KeyEscape: func() {
+			for _, focus := range focusable {
+				*focus = false
+			}
+		},
+	}
+
 	defer rl.CloseWindow()
 
-	rl.SetTargetFPS(60)
+	for !rl.WindowShouldClose() && !closeWindow {
+		if rl.IsWindowResized() {
+			updateRec()
+		}
 
-	for !rl.WindowShouldClose() {
+		if rl.IsMouseButtonPressed(0) {
+			actions[rl.KeyEscape]()
+		}
+		if action := actions[uint(rl.GetKeyPressed())]; action != nil {
+			action()
+		}
+
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.RayWhite)
-		rl.DrawText("Congrats! You created your first window!", 190, 200, 20, rl.LightGray)
+
+		if rg.ValueBox(rec, text, &val, 0, math.MaxInt, inputFocus) {
+			actions[rl.KeyEscape]()
+			inputFocus = true
+		}
 
 		rl.EndDrawing()
 	}
+
 }
