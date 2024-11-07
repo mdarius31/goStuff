@@ -13,7 +13,7 @@ import (
 	"sync"
 	"unsafe"
 
-	"github.com/ebitengine/purego/internal/strings"
+	"purego/internal/strings"
 )
 
 var thePool = sync.Pool{New: func() any {

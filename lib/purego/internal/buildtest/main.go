@@ -6,7 +6,7 @@
 package main
 
 import (
-	_ "github.com/ebitengine/purego"
+	_ "purego"
 )
 
 import "C"

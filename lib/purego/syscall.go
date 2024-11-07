@@ -28,7 +28,7 @@ type syscall15Args struct {
 // when the maximum is exceeded. It returns the result and the libc error code if there is one.
 //
 // NOTE: SyscallN does not properly call functions that have both integer and float parameters.
-// See discussion comment https://github.com/ebiten/purego/pull/1#issuecomment-1128057607
+// See discussion comment https://github.com/ebitenpurego/pull/1#issuecomment-1128057607
 // for an explanation of why that is.
 //
 // On amd64, if there are more than 8 floats the 9th and so on will be placed incorrectly on the

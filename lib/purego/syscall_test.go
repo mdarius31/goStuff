@@ -7,7 +7,7 @@ import (
 	"os"
 	"testing"
 
-	_ "github.com/ebitengine/purego"
+	_ "purego"
 )
 
 func TestOS(t *testing.T) {
