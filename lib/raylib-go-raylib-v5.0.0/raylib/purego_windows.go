@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"unsafe"
 
-	"github.com/ebitengine/purego"
+	"purego"
 	"golang.org/x/sys/windows"
 )
 

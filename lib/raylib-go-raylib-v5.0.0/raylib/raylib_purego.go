@@ -9,7 +9,7 @@ import (
 	"os"
 	"unsafe"
 
-	"github.com/ebitengine/purego"
+	"purego"
 )
 
 var (

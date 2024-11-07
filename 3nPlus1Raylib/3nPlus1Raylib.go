@@ -2,12 +2,10 @@ package main
 
 import (
 	"fmt"
-	"math"
 
 	t "threeNPlusOne"
 
-	rg "github.com/gen2brain/raylib-go/raygui"
-	rl "github.com/gen2brain/raylib-go/raylib"
+	rl "raylib"
 )
 
 func main() {
@@ -21,20 +19,16 @@ func main() {
 	rl.SetConfigFlags(rl.FlagWindowResizable | rl.FlagVsyncHint)
 	rl.SetTraceLogLevel(rl.LogError)
 
-	rl.InitWindow(800, 450, title)
+	rl.InitWindow(640, 480, title)
 
 	rl.SetExitKey(rl.KeyNull)
-
-	text := ""
-
-	var val int32 = 0
 
 	inputFocus := false
 
 	focusable := []*bool{&inputFocus}
 
 	recH := float32(30)
-	rec := rl.NewRectangle(0, 200, float32(rl.GetScreenWidth()), recH)
+	rec := rl.NewRectangle(0, 0, float32(rl.GetScreenWidth()), recH)
 
 	updateRec := func() {
 
@@ -71,11 +65,6 @@ func main() {
 		rl.BeginDrawing()
 
 		rl.ClearBackground(rl.RayWhite)
-
-		if rg.ValueBox(rec, text, &val, 0, math.MaxInt, inputFocus) {
-			actions[rl.KeyEscape]()
-			inputFocus = true
-		}
 
 		rl.EndDrawing()
 	}

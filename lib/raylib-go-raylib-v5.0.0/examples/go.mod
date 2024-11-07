@@ -20,6 +20,6 @@ require (
 )
 
 require (
-	github.com/ebitengine/purego v0.5.0 // indirect
+	purego v0.5.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
 )
