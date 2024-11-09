@@ -11,7 +11,7 @@ import (
 	"strings"
 	"unsafe"
 
-	rl "github.com/gen2brain/raylib-go/raylib"
+	rl "raylib-go/raylib"
 )
 
 const (

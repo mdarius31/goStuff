@@ -1,10 +1,14 @@
-module github.com/gen2brain/raylib-go/raygui
+module raylib-go/raygui
 
 go 1.21
 
-require github.com/gen2brain/raylib-go/raylib v0.0.0-20231118125650-a1c890e8cbfc
+replace raylib-go/raylib => ../raylib
+
+replace purego => ../../purego
+
+require raylib-go/raylib v0.0.0-00010101000000-000000000000
 
 require (
-	purego v0.5.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
+	purego v0.5.0 // indirect
 )
